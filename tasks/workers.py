@@ -13,4 +13,8 @@ def long_task(task_id):
         time.sleep(60)
         progress = int(step / total_steps * 100)
         r.set(f"progress:{task_id}", progress)
+    
+    # simulate your final data
+    result_data = {"message": "Task completed!", "sum": 42}
+    r.set(f"result:{task_id}", str(result_data))
     return "done"

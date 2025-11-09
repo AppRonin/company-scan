@@ -1,3 +1,4 @@
+import ast
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from tasks.workers import long_task
@@ -15,4 +16,9 @@ class StartTaskView(APIView):
 class ProgressView(APIView):
     def get(self, request, task_id):
         progress = r.get(f"progress:{task_id}")
-        return Response({"progress": int(progress) if progress else 0})
+        result = r.get(f"result:{task_id}")
+        
+        return Response({
+            "progress": int(progress) if progress else 0,
+            "result": ast.literal_eval(result.decode()) if result else None
+        })
