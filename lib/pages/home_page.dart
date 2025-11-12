@@ -3,6 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
 
+// API Packages
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -12,6 +16,51 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController stockController = TextEditingController();
+  double progress = 0;
+
+  Future<Map<String, dynamic>> startTask(String ticker) async {
+    final url = Uri.parse('http://localhost:8000/api/v1/$ticker');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load task ID');
+    }
+  }
+
+  Future<Map<String, dynamic>> getProgress(String taskID) async {
+    final url = Uri.parse('http://localhost:8000/api/v1/progress/$taskID');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load progress');
+    }
+  }
+
+  void updateProgress(String taskID) async {
+    while (progress < 100) {
+      try {
+        var taskProgress = await getProgress(taskID);
+        setState(() {
+          progress = double.parse(taskProgress["progress"].toString());
+        });
+
+        await Future.delayed(Duration(seconds: 1));
+      } catch (e) {
+        print("Error getting progress: $e");
+        break;
+      }
+    }
+  }
+
+  void resetProgress() {
+    setState(() {
+      progress = 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +126,15 @@ class _HomePageState extends State<HomePage> {
                       child: MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: () {
-                            print(stockController.text);
+                          onTap: () async {
+                            final ticker = stockController.text;
+                            try {
+                              resetProgress();
+                              final task = await startTask(ticker);
+                              updateProgress(task['task_id']);
+                            } catch (e) {
+                              print("Error: $e");
+                            }
                           },
                           child: Container(
                             width: 32,
@@ -221,9 +277,9 @@ class _HomePageState extends State<HomePage> {
                         radius: 60,
                         lineWidth: 13,
                         animation: true,
-                        percent: 0.7,
+                        percent: progress / 100,
                         center: Text(
-                          "70%",
+                          progress.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         circularStrokeCap: CircularStrokeCap.round,
