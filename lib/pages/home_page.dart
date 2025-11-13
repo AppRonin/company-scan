@@ -237,7 +237,9 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Center(
                         child: Text(
-                          'AAPL',
+                          stockController.text.isNotEmpty
+                              ? stockController.text
+                              : 'STOCK',
                           style: GoogleFonts.openSans(
                             fontSize: 21,
                             fontWeight: FontWeight.w700,
@@ -298,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                         animation: true,
                         percent: progress / 100,
                         center: Text(
-                          progress.toString(),
+                          "$progress %",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         circularStrokeCap: CircularStrokeCap.round,
