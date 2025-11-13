@@ -278,13 +278,14 @@ class _HomePageState extends State<HomePage> {
                 Column(
                   children: [
                     // Progress Card
+                    // Progress Card
                     Container(
                       width: 200,
                       height: 200,
                       padding: EdgeInsets.all(24),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: BoxBorder.all(color: Colors.grey, width: 0.5),
+                        border: Border.all(color: Colors.grey, width: 0.5),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
@@ -294,19 +295,28 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      child: CircularPercentIndicator(
-                        radius: 60,
-                        lineWidth: 13,
-                        animation: true,
-                        percent: progress / 100,
-                        center: Text(
-                          "$progress %",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        circularStrokeCap: CircularStrokeCap.round,
-                        progressColor: Colors.black,
+                      child: TweenAnimationBuilder<double>(
+                        tween: Tween<double>(begin: 0, end: progress / 100),
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.easeOutCubic,
+                        builder: (context, value, _) =>
+                            CircularPercentIndicator(
+                              radius: 60,
+                              lineWidth: 13,
+                              percent: value.clamp(0.0, 1.0),
+                              center: Text(
+                                "${(value * 100).toStringAsFixed(0)}%",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              circularStrokeCap: CircularStrokeCap.round,
+                              progressColor: Colors.black,
+                              backgroundColor: Colors.grey[200]!,
+                            ),
                       ),
                     ),
+
                     SizedBox(height: 20),
 
                     // Review Card
