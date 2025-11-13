@@ -1,3 +1,4 @@
+import 'package:company_scan/widgets/stock_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController stockController = TextEditingController();
+  Map<String, dynamic> result = {};
   double progress = 0;
 
   Future<Map<String, dynamic>> startTask(String ticker) async {
@@ -41,18 +43,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateProgress(String taskID) async {
-    while (progress < 100) {
+    int attempts = 0;
+    const maxAttempts = 10;
+
+    while (progress < 100 && attempts < maxAttempts) {
       try {
         var taskProgress = await getProgress(taskID);
         setState(() {
           progress = double.parse(taskProgress["progress"].toString());
         });
-
-        await Future.delayed(Duration(seconds: 1));
       } catch (e) {
         print("Error getting progress: $e");
         break;
       }
+
+      attempts++;
+      await Future.delayed(const Duration(seconds: 1));
     }
   }
 
@@ -60,6 +66,25 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       progress = 0;
     });
+  }
+
+  void updateResult(String taskID) async {
+    int attempts = 0;
+    const maxAttempts = 10;
+
+    while (progress < 100 && attempts < maxAttempts) {
+      await Future.delayed(const Duration(seconds: 1));
+      attempts++;
+    }
+
+    try {
+      var taskResult = await getProgress(taskID);
+      setState(() {
+        result = taskResult["result"] ?? {};
+      });
+    } catch (e) {
+      print('Failed to get result: $e');
+    }
   }
 
   @override
@@ -132,6 +157,7 @@ class _HomePageState extends State<HomePage> {
                               resetProgress();
                               final task = await startTask(ticker);
                               updateProgress(task['task_id']);
+                              updateResult(task['task_id']);
                             } catch (e) {
                               print("Error: $e");
                             }
@@ -221,33 +247,26 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(height: 24),
 
                       Divider(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 8,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'PE',
-                              style: GoogleFonts.openSans(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-
-                            Text(
-                              '00.00',
-                              style: GoogleFonts.openSans(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
+                      StockTile(
+                        ratio: "Years",
+                        ratioValue: result.isNotEmpty
+                            ? result['years'].toString()
+                            : '-',
                       ),
                       Divider(),
+                      StockTile(
+                        ratio: "ROIC Avg",
+                        ratioValue: result.isNotEmpty
+                            ? result['roic mean'].toString()
+                            : '-',
+                      ),
+                      Divider(),
+                      StockTile(
+                        ratio: "FCF/Debt",
+                        ratioValue: result.isNotEmpty
+                            ? result['fcf to debt'].toString()
+                            : '-',
+                      ),
                     ],
                   ),
                 ),
