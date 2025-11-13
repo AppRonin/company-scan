@@ -262,9 +262,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Divider(),
                       StockTile(
-                        ratio: "FCF/Debt",
+                        ratio: "Debt/FCF",
                         ratioValue: result.isNotEmpty
-                            ? result['fcf to debt'].toString()
+                            ? result['debt to fcf'].toString()
                             : '-',
                       ),
                     ],
