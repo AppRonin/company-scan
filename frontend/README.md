@@ -9,26 +9,19 @@ It consumes a **REST API** backend to display real-time information and progress
   </p>
 </div>
 
-## Tech Stack
-
-- 🦋 **Flutter** – Cross-platform UI framework
-- 🎨 **Material Design** – Modern UI components
-- 🔤 **Google Fonts** – Custom typography
-- 🌐 **HTTP Client** – API communication
-- 📊 **Percent Indicator** – Progress visualization
-
 ## Getting Started
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/AppRonin/company-scan.git
-cd company-scan/company-scan-front/
+cd company-scan
 ```
 
 ### 2. Install dependencies
 
 ```bash
+cd frontend
 flutter pub get
 ```
 

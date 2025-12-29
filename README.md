@@ -25,7 +25,7 @@ cd company-scan
 ### 2️⃣ Frontend Setup
 
 ```bash
-cd company-scan-front
+cd frontend
 flutter pub get
 flutter run
 ```
@@ -33,7 +33,7 @@ flutter run
 ### 3️⃣ Backend Setup
 
 ```bash
-cd company-scan-back
+cd backend
 python manage.py runserver
 ```
 
