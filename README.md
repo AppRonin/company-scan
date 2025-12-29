@@ -1,9 +1,7 @@
-# 📦 Company Scan — Frontend
+# 🦋 Company Scan Frontend
 
 Company Scan is a **Flutter** application built to provide a smooth interface for scanning, tracking, and managing stock or company-related data.  
 It consumes a **REST API** backend to display real-time information and progress updates.
-
-## 📱 Screenshots
 
 <div align="center">
   <p float="left">
@@ -11,54 +9,21 @@ It consumes a **REST API** backend to display real-time information and progress
   </p>
 </div>
 
-## 🚀 Features
+## Tech Stack
 
-- 📊 Real-time progress indicators for background tasks
-- 🔍 Search and filter stock items
-- 🧩 Modular widget-based architecture
-- 🌐 Integration with custom REST API (Django/DRF, Node, etc.)
-- 🖋️ Custom typography using [Google Fonts](https://pub.dev/packages/google_fonts)
-- ⚙️ Smooth animations with `percent_indicator`
+- 🦋 **Flutter** – Cross-platform UI framework
+- 🎨 **Material Design** – Modern UI components
+- 🔤 **Google Fonts** – Custom typography
+- 🌐 **HTTP Client** – API communication
+- 📊 **Percent Indicator** – Progress visualization
 
----
-
-## 🧰 Tech Stack
-
-| Layer       | Technology                     |
-| ----------- | ------------------------------ |
-| Framework   | Flutter                        |
-| Language    | Dart                           |
-| HTTP Client | `http` package                 |
-| UI          | Material Design + Google Fonts |
-| State       | Stateful Widgets               |
-| Indicators  | `percent_indicator` package    |
-
----
-
-## 🧑‍💻 Project Structure
-
-```
-lib/
-│
-├── widgets/
-│   ├── stock_tile.dart        # Reusable stock item widget
-│
-├── pages/
-│   ├── home_page.dart         # Main dashboard page
-│
-│
-└── main.dart                  # Entry point
-```
-
----
-
-## ⚙️ Setup & Installation
+## Getting Started
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/AppRonin/company-scan.git
-cd company-scan
+cd company-scan/company-scan-front/
 ```
 
 ### 2. Install dependencies
@@ -73,10 +38,6 @@ flutter pub get
 flutter run
 ```
 
----
+## Author
 
-## 🧑‍🏭 Author
-
-**AppRonin**
-
----
+Developed by **AppRonin**, Full-Stack Developer.
