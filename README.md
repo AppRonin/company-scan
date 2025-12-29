@@ -9,7 +9,7 @@ The project is split into two independent but connected applications:
 
 <div align="center">
   <p float="left">
-    <img src="company-scan-front/lib/images/screenshot_1.png" width="80%" />
+    <img src="frontend/lib/images/screenshot_1.png" width="80%" />
   </p>
 </div>
 
